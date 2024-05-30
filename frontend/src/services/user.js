@@ -32,6 +32,20 @@ const axiosGET = async (endpoint) => {
     }
 };
 
+const axiosPUT = async (endpoint, data) => {
+    try {
+        const response = await axios.put(baseUrl + endpoint, data, config);
+        return response.data;
+    } catch (error) {
+        if (error.response.status == 401) {
+            handleJWTExpiry();
+        } else {
+            throw Error(error.response.data.error);
+        }
+    }
+};
+
+
 const getAllDepartments = async () => {
     return axiosGET("departments");
 };
@@ -108,6 +122,10 @@ const getSession = async (id) => {
     return axiosGET(`sessions/${id}`);
 };
 
+const changeUserUsername = async (username, data) => {
+    return axiosPUT(`users/${username}`, data, config);
+};
+
 export default {
     setToken,
     getAllDepartments,
@@ -129,4 +147,5 @@ export default {
     getDepartment,
     getSessionDetails,
     getSession,
+    changeUserUsername
 };

@@ -45,6 +45,19 @@ const axiosGET = async (endpoint) => {
     }
 };
 
+const axiosPUT = async (endpoint, data) => {
+    try {
+        const response = await axios.put(baseUrl + endpoint, data, config);
+        return response.data;
+    } catch (error) {
+        if (error.response.status == 401) {
+            handleJWTExpiry();
+        } else {
+            throw Error(error.response.data.error);
+        }
+    }
+};
+
 const createAdmin = async (data) => {
     return axiosPOST("admin", data);
 };
@@ -91,6 +104,10 @@ const changeAdminPassword = async (data) => {
 
 const changeUserPassword = async (data) => {
     return axiosPOST("users/changepassword", data, config);
+};
+
+const changeAdminUsername = async (username, data) => {
+    return axiosPUT(`admin/${username}`, data, config);
 }
 
 const getDepartmentCount = async () => {
@@ -201,5 +218,6 @@ export default {
     getCourse,
     getDepartment,
     getSessionDetails,
-    getSession
+    getSession,
+    changeAdminUsername
 };

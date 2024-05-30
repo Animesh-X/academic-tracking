@@ -146,7 +146,7 @@ adminRouter.put("/:username", async (request, response) => {
     let { new_username, email, password, security_question, security_answer } =
         request.body;
 
-    const adminSearch = dbConn.query(
+    const adminSearch = await dbConn.query(
         "SELECT username, email, security_question, security_answer_hash FROM administrator WHERE username=?",
         [username]
     );
@@ -256,6 +256,7 @@ adminRouter.put("/:username", async (request, response) => {
             new_username,
             passwordHash,
             email,
+            security_question,
             securityAnswerHash,
             username,
         ]

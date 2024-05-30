@@ -150,7 +150,7 @@ usersRouter.put("/:username", async (request, response) => {
     const { username } = request.params;
     let { new_username, email, password } = request.body;
 
-    const userSearch = dbConn.query(
+    const userSearch = await dbConn.query(
         "SELECT username, email FROM user WHERE username=?",
         [username]
     );
