@@ -13,7 +13,9 @@ departmentsRouter.get("/", async (request, response) => {
 });
 
 departmentsRouter.get("/count", async (request, response) => {
-    const departmentCount = await dbConn.query('SELECT COUNT(*) as count FROM department');
+    const departmentCount = await dbConn.query(
+        "SELECT COUNT(*) as count FROM department"
+    );
     return response.json(departmentCount[0].count);
 });
 
@@ -39,15 +41,25 @@ departmentsRouter.get("/:id", async (request, response) => {
     const [department] = departmentWithId;
 
     return response.json(department);
+});
 
-})
+departmentsRouter.get("/courses/:id", async (req, res) => {
+    const departmentId = req.params.id;
+    const courses =
+        await dbConn.query(`SELECT department_id,name as department_name,course.id as course_id,course.code as course_code, title as course_title 
+                        FROM department
+                        JOIN course ON department.id = course.department_id where department_id = ?;`,[
+                            departmentId
+                        ]);
+    return res.json(courses);
+});
 
-departmentsRouter.get("/courses/count", async(request, response) => {
+departmentsRouter.get("/courses/count", async (request, response) => {
     const countQuery = `SELECT department.name, department.id as department_id, COUNT(course.code) as count 
                         FROM department 
                         LEFT JOIN course ON course.department_id = department.id 
                         GROUP BY department.id
-                        ORDER BY department.id;`
+                        ORDER BY department.id;`;
     const coursesCount = await dbConn.query(countQuery);
     return response.json(coursesCount);
 });
