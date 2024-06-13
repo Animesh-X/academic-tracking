@@ -22,7 +22,7 @@ export default function DepartmentPage() {
             .getAllDepartments()
             .then((data) => setDepartments(data))
             .catch((error) => setErrorMessage(error));
-    }, [user?.token]);
+    }, []);
 
     return (
         <SideBar>

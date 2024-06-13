@@ -26,7 +26,7 @@ const ProgrammePage = () => {
           setErrorMessage("");
         }, 5000);
       });
-  }, [user?.token]);
+  }, []);
 
   return (
     <SideBar>

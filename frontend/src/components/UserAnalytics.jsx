@@ -57,7 +57,7 @@ export default function Analytics() {
             .catch((error) => {
                 console.error('Error fetching Session Count', error);
             })
-    }, [user])
+    }, [])
 
     return (
         <CustomThemeProvider>

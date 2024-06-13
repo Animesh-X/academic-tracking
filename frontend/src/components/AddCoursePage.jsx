@@ -20,7 +20,7 @@ const AddCoursePage = () => {
         console.log(data);
       })
       .catch(error => console.error("Error fetching departments:", error));
-  }, [user]);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();

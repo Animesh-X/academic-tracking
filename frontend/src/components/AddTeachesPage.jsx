@@ -50,7 +50,7 @@ const AddTeachesPage = () => {
                 console.log(data);
             })
             .catch((error) => console.error("Error fetching Sessions:", error));
-    }, [user]);
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();

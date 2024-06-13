@@ -43,7 +43,7 @@ const AddTakesPage = () => {
             .catch((error) =>
                 console.error("Error fetching Instructors:", error)
             );
-    }, [user]);
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
