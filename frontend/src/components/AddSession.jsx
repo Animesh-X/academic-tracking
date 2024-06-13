@@ -43,6 +43,7 @@ const AddSession = () => {
       .then(() => {
         alert("Session Added Successfully");
         event.target.reset();
+        setSeason('');
       })
       .catch((error) => {
         console.log("inside error");
