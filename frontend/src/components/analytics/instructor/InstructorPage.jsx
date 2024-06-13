@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import services from '../services/admin'
-import ErrorMessage from './ErrorMessage';
-import CardAnalytics from './CardAnalytics';
-import '../styles/InstructorPage.css'
-import Instructor from '../assets/instructorImage.png';
 import { useNavigate } from 'react-router-dom';
-import SideBar from './SideBar';
+import SideBar from "../../SideBar";
+import ErrorMessage from "../../ErrorMessage";
+import CardAnalytics from "../../CardAnalytics";
+import services from "../../../services/admin";
+import '../../../styles/InstructorPage.css'
+import Instructor from '../../../assets/instructorImage.png';
+
 
 export default function InstructorPage() {
   const [instructors, setInstructors] = useState([]);

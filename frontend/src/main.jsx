@@ -9,10 +9,11 @@ import adminLoader from './loaders/adminLoader';
 import adminLoginLoader from './loaders/adminLoginLoader';
 import adminUserLoader from './loaders/adminUserLoader.js';
 import ErrorPage from './components/ErrorPage.jsx';
+
 import AdminSignIn from './components/_auth/AdminSignIn.jsx';
 import SignInSide from './components/_auth/SignInSide.jsx';
 import SignUpSide from './components/_auth/SignUpSide.jsx';
-import AdminDashBoard from './components/AdminDashBoard.jsx';
+
 import AddAdminPage from './components/dataforms/AddAdminPage.jsx';
 import AddUser from './components/dataforms/AddUser.jsx';
 import AddInstructorPage from './components/dataforms/AddInstructorPage.jsx';
@@ -23,15 +24,19 @@ import AddCoursePage from './components/dataforms/AddCoursePage.jsx';
 import AddSession from './components/dataforms/AddSession.jsx';
 import AddTakesPage from './components/dataforms/AddTakesPage.jsx';
 import AddTeachesPage from './components/dataforms/AddTeachesPage.jsx';
+
+import DepartmentPage from './components/analytics/department/DepartmentPage.jsx';
+
+import InstructorPage from './components/analytics/instructor/InstructorPage.jsx';
+import InstructorDetails from './components/analytics/instructor/InstructorDetails.jsx';
+
+import AdminDashBoard from './components/AdminDashBoard.jsx';
 import Analytics from './components/Analytics.jsx';
-import InstructorPage from './components/InstructorPage.jsx';
-import InstructorDetails from './components/InstructorDetails.jsx';
 import CourseDetails from './components/CourseDetails.jsx';
 import SessionPage from './components/SessionPage.jsx';
 import SessionDetails from './components/SessionDetails.jsx';
 import CoursePage from './components/CoursePage.jsx';
 import ProgrammePage from './components/ProgrammePage.jsx';
-import DepartmentPage from './components/DepartmentPage.jsx';
 
 
 const router = createBrowserRouter([

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import ErrorMessage from "./ErrorMessage";
-import CardAnalytics from "./CardAnalytics";
 import Grid from "@mui/material/Grid";
-import services from "../services/admin";
-import Department from "../assets/department_image.png";
-import "../styles/DepartmentPage.css";
-import SideBar from "./SideBar";
+import SideBar from "../../SideBar";
+import ErrorMessage from "../../ErrorMessage";
+import CardAnalytics from "../../CardAnalytics";
+import services from "../../../services/admin";
+import Department from "../../../assets/department_image.png"
+import "../../../styles/DepartmentPage.css"
 
 export default function DepartmentPage() {
     const [departments, setDepartments] = useState([]);
