@@ -9,9 +9,9 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import signupServices from '../services/signup';
-import ErrorMessage from './ErrorMessage';
-import CustomThemeProvider from './CustomThemeProvider';
+import signupServices from '../../services/signup';
+import ErrorMessage from '../ErrorMessage';
+import CustomThemeProvider from '../CustomThemeProvider';
 
 function Copyright(props) {
   return (
