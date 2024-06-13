@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import ErrorMessage from './ErrorMessage';
-import SideBar from './SideBar';
+import ErrorMessage from '../ErrorMessage';
+import SideBar from '../SideBar';
 import { Box } from '@mui/system';
-import adminServices from '../services/admin';
+import adminServices from '../../services/admin';
 
-const AddCoursePage = () => {
+const AddProgrammePage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [departments, setDepartments] = useState([]); // State to store department names
   const [selectedDepartment, setSelectedDepartment] = useState(""); // State to store selected department name
@@ -13,7 +13,7 @@ const AddCoursePage = () => {
 
   useEffect(() => {
     // Fetch department names when component mounts
-    adminServices.setToken(user.token)
+    adminServices.setToken(user.token);
     adminServices.getAllDepartments()
       .then(data => {
         setDepartments(data);
@@ -25,9 +25,9 @@ const AddCoursePage = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const title = formData.get('title');
-    const code = formData.get('code');
-    if (!title || !code || !selectedDepartment) {
+    const degree = formData.get('degree');
+    const name = formData.get('name');
+    if (!selectedDepartment || !degree || !name) {
       setErrorMessage("Missing required fields");
       setTimeout(() => {
         setErrorMessage("");
@@ -43,16 +43,16 @@ const AddCoursePage = () => {
       return;
     }
     const credentials = {
-      title: title,
-      code: code,
-      department_id: departmentId
+      department_id: departmentId,
+      degree: degree,
+      name: name
     };
 
     adminServices.setToken(user?.token);
     adminServices
-      .addCourse(credentials)
+      .addProgramme(credentials)
       .then(() => {
-        alert("Course Added Successfully!!!");
+        alert("Programme Added Successfully!!!");
         event.target.reset();
         setSelectedDepartment("");
       })
@@ -64,9 +64,9 @@ const AddCoursePage = () => {
           }, 5000);
         } else {
           setErrorMessage(
-            "Error adding course. Please check the console for more details"
+            "Error adding instructor. Please check the console for more details"
           );
-          console.error("Error adding course:", error);
+          console.error("Error adding programme:", error);
           setTimeout(() => {
             setErrorMessage("");
           }, 5000);
@@ -82,12 +82,10 @@ const AddCoursePage = () => {
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}>
             <Paper style={{ padding: 24, borderRadius: 8 }}>
               <Typography variant="h5" align="center" gutterBottom>
-                Add Course
+                Add Programme
               </Typography>
               <form onSubmit={handleSubmit}>
                 <div style={{ width: '100%' }}>
-                  <TextField label="Course Title" variant="outlined" fullWidth margin="normal" id='title' name='title' />
-                  <TextField label="Course Code" variant="outlined" fullWidth margin="normal" id='code' name='code' />
                   {/* <FormControl fullWidth margin="normal">
                     <InputLabel id="department-label">Department</InputLabel>
                     <Select
@@ -115,8 +113,11 @@ const AddCoursePage = () => {
                         ))}
                     </Select>
                   </FormControl>
+
+                  <TextField label="Degree" variant="outlined" fullWidth margin="normal" id='degree' name='degree' />
+                  <TextField label="Branch Name" variant="outlined" fullWidth margin="normal" id='name' name='name' />
                   <Button variant="contained" color="primary" style={{ marginTop: 24 }} fullWidth type='submit'>
-                    Add Course
+                    Add Programme
                   </Button>
                 </div>
               </form>
@@ -128,4 +129,4 @@ const AddCoursePage = () => {
   );
 };
 
-export default AddCoursePage;
+export default AddProgrammePage;

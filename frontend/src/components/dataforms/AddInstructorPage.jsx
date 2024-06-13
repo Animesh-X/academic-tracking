@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import ErrorMessage from './ErrorMessage';
-import SideBar from './SideBar';
+import ErrorMessage from '../ErrorMessage';
+import SideBar from '../SideBar';
 import { Box } from '@mui/system';
-import adminServices from '../services/admin';
+import adminServices from '../../services/admin';
 
 const AddInstructorPage = () => {
   const [errorMessage, setErrorMessage] = useState("");

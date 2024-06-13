@@ -1,16 +1,11 @@
 import { useState } from "react";
-import {
-    Typography,
-    TextField,
-    Button,
-    Paper,
-} from "@mui/material";
-import ErrorMessage from "./ErrorMessage";
-import SideBar from "./SideBar";
+import { Typography, TextField, Button, Paper } from "@mui/material";
+import ErrorMessage from "../ErrorMessage";
+import SideBar from "../SideBar";
 import { Box } from "@mui/system";
-import adminServices from "../services/admin";
+import adminServices from "../../services/admin";
 
-const AddUser = () => {
+const AddDepartment = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const user = JSON.parse(
         localStorage.getItem("loggedAcademicTrackingAdmin")
@@ -19,28 +14,24 @@ const AddUser = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const username = formData.get("username");
-        const password = formData.get("password");
-        const email = formData.get("email");
-        console.log(username, password, email);
-        if (!username || !password || !email) {
-            setErrorMessage("Missing username or password or email");
+        const department_name = formData.get("department_name");
+        console.log(department_name);
+        if (!department_name) {
+            setErrorMessage("Missing department name");
             setTimeout(() => {
                 setErrorMessage("");
             }, 5000);
             return;
         }
         const credentials = {
-            username,
-            email,
-            password,
+            name: department_name,
         };
 
         adminServices.setToken(user?.token);
         adminServices
-            .createUser(credentials)
+            .addDepartment(credentials)
             .then(() => {
-                alert("User Created Successfully!!!");
+                alert("Department Added Successfully!!!");
                 event.target.reset();
             })
             .catch((error) => {
@@ -71,7 +62,7 @@ const AddUser = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            height: "85vh",
+                            height: "85vh"
                         }}
                     >
                         <Paper style={{ padding: 24, borderRadius: 8 }}>
@@ -80,35 +71,17 @@ const AddUser = () => {
                                 align="center"
                                 gutterBottom
                             >
-                                Create User
+                                Add Department
                             </Typography>
                             <form onSubmit={handleSubmit}>
                                 <div style={{ width: "100%" }}>
                                     <TextField
-                                        label="Username"
+                                        label="Department Name"
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
-                                        id="username"
-                                        name="username"
-                                    />
-                                    <TextField
-                                        label="Email"
-                                        variant="outlined"
-                                        fullWidth
-                                        margin="normal"
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                    />
-                                    <TextField
-                                        label="Password"
-                                        variant="outlined"
-                                        fullWidth
-                                        margin="normal"
-                                        type="password"
-                                        id="password"
-                                        name="password"
+                                        id="department_name"
+                                        name="department_name"
                                     />
                                     <Button
                                         variant="contained"
@@ -117,7 +90,7 @@ const AddUser = () => {
                                         fullWidth
                                         type="submit"
                                     >
-                                        Create
+                                        Add Department
                                     </Button>
                                 </div>
                             </form>
@@ -129,4 +102,4 @@ const AddUser = () => {
     );
 };
 
-export default AddUser;
+export default AddDepartment;

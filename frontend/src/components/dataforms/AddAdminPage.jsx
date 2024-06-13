@@ -9,10 +9,10 @@ import {
     Select,
     MenuItem,
 } from "@mui/material";
-import ErrorMessage from "./ErrorMessage";
-import SideBar from "./SideBar";
+import ErrorMessage from "../ErrorMessage";
+import SideBar from "../SideBar";
 import { Box } from "@mui/system";
-import adminServices from "../services/admin";
+import adminServices from "../../services/admin";
 
 const securityQuestions = [
     "What was the name of your first pet?",
