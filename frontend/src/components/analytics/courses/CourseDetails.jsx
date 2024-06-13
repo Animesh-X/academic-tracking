@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Typography } from '@mui/material';
-import services from '../services/admin'
-import CardAnalytics from './CardAnalytics';
-import '../styles/InstructorDetails.css';
-import Book from '../assets/book_image.png';
-import SideBar from './SideBar';
+import SideBar from "../../SideBar";
+import ErrorMessage from "../../ErrorMessage";
+import CardAnalytics from "../../CardAnalytics";
+import services from '../../../services/admin'
+import '../../../styles/InstructorDetails.css';
+import Book from '../../../assets/book_image.png';
 
 export default function CourseDetails() {
   const { id } = useParams();

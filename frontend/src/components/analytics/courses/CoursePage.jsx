@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import ErrorMessage from './ErrorMessage';
-import SideBar from './SideBar';
-import adminServices from '../services/admin';
-import CardAnalytics from './CardAnalytics';
 import Grid from '@mui/material/Grid';
-import Course from '../assets/course_image.png';
-import '../styles/CoursePage.css'; 
+import SideBar from "../../SideBar";
+import ErrorMessage from "../../ErrorMessage";
+import CardAnalytics from "../../CardAnalytics";
+import adminServices from "../../../services/admin";
+import Course from '../../../assets/course_image.png';
+import '../../../styles/CoursePage.css'; 
 
 const CoursePage = () => {
   const [courses, setCourses] = useState([]);

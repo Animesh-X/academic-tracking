@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import ErrorMessage from './ErrorMessage';
-import adminServices from '../services/admin';
-import CardAnalytics from './CardAnalytics';
 import Grid from '@mui/material/Grid';
-import Programme from '../assets/programme_image.png';
-import '../styles/ProgrammePage.css';
-import SideBar from './SideBar';
+import SideBar from "../../SideBar";
+import ErrorMessage from "../../ErrorMessage";
+import CardAnalytics from "../../CardAnalytics";
+import adminServices from "../../../services/admin";
+import Programme from '../../../assets/programme_image.png';
+import '../../../styles/ProgrammePage.css';
 
 const ProgrammePage = () => {
   const [programmes, setProgrammes] = useState([]);

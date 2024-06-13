@@ -30,13 +30,16 @@ import DepartmentPage from './components/analytics/department/DepartmentPage.jsx
 import InstructorPage from './components/analytics/instructor/InstructorPage.jsx';
 import InstructorDetails from './components/analytics/instructor/InstructorDetails.jsx';
 
+import CoursePage from './components/analytics/courses/CoursePage.jsx';
+import CourseDetails from './components/analytics/courses/CourseDetails.jsx';
+
+import ProgrammePage from './components/analytics/programme/ProgrammePage.jsx';
+
+import SessionPage from './components/analytics/session/SessionPage.jsx';
+import SessionDetails from './components/analytics/session/SessionDetails.jsx';
+
 import AdminDashBoard from './components/AdminDashBoard.jsx';
 import Analytics from './components/Analytics.jsx';
-import CourseDetails from './components/CourseDetails.jsx';
-import SessionPage from './components/SessionPage.jsx';
-import SessionDetails from './components/SessionDetails.jsx';
-import CoursePage from './components/CoursePage.jsx';
-import ProgrammePage from './components/ProgrammePage.jsx';
 
 
 const router = createBrowserRouter([
