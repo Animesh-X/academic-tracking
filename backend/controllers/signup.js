@@ -83,4 +83,56 @@ signupRouter.post("/", async (request, response) => {
     return response.status(201).end();
 });
 
+signupRouter.post("/student", async (request, response) => {
+    let { email, password } = request.body;
+
+    if (!email) {
+        return response.status(400).json({
+            error: "email missing in request body",
+        });
+    }
+
+    if (!password) {
+        return response.status(400).json({
+            error: "password missing in request body",
+        });
+    }
+
+    password = password.trim();
+    email = email.trim();
+
+    if (!password || password.length < 3) {
+        return response.status(400).json({
+            error: "password must be at least 3 characters long",
+        });
+    }
+
+    if (!email || !validator.validate(email)) {
+        return response.status(400).json({
+            error: "Invalid email",
+        });
+    }
+
+    const studentWithEmail = await dbConn.query(
+        "SELECT * from student where email = ?",
+        [email]
+    );
+
+    if(studentWithEmail.length === 0) {
+        return response.status(406).json({
+            error: "No student exists for this email",
+        });
+    }
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const query =
+        "INSERT INTO student_user (email, password_hash) VALUES (?, ?);";
+
+    await dbConn.query(query, [email, passwordHash]);
+
+    return response.status(201).end();
+})
+
 module.exports = signupRouter;

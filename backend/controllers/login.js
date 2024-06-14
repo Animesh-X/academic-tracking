@@ -89,4 +89,43 @@ loginRouter.post("/admin", async (request, response) => {
     });
 });
 
+loginRouter.post("/student", async (request, response) => {
+    const { email, password } = request.body;
+
+    const query = "SELECT * FROM student_user WHERE email=?";
+
+    const [studentWithEmail] = await dbConn.query(query, [email]);
+
+    if (!studentWithEmail) {
+        return response.status(401).json({
+            error: "Invalid email",
+        });
+    }
+
+    const passwordCorrect = await bcrypt.compare(
+        password,
+        studentWithEmail.password_hash
+    );
+
+    if (!passwordCorrect) {
+        return response.status(401).json({
+            error: "Invalid password",
+        });
+    }
+
+    const studentForToken = {
+        email: studentWithEmail.email,
+    };
+
+    const token = jwt.sign(studentForToken, process.env.SECRET, {
+        expiresIn: 60 * 60,
+    });
+
+    response.status(200).send({
+        token,
+        email: studentWithEmail.email,
+        type: "student_user",
+    });
+});
+
 module.exports = loginRouter;
