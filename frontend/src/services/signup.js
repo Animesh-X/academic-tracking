@@ -7,4 +7,9 @@ const signupUser = async (credentials) => {
     return response.data;
 };
 
-export default { signupUser };
+const signupStudent = async (credentials) => {
+    const response = await axios.post(baseUrl + "/signup/student", credentials);
+    return response.data;
+}
+
+export default { signupUser, signupStudent };

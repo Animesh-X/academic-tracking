@@ -14,6 +14,9 @@ import AdminSignIn from './components/_auth/AdminSignIn.jsx';
 import SignInSide from './components/_auth/SignInSide.jsx';
 import SignUpSide from './components/_auth/SignUpSide.jsx';
 
+import StudentSignup from './components/_auth/StudentSignup.jsx';
+import StudentSignin from './components/_auth/StudentSignin.jsx';
+
 import AddAdminPage from './components/dataforms/AddAdminPage.jsx';
 import AddUser from './components/dataforms/AddUser.jsx';
 import AddInstructorPage from './components/dataforms/AddInstructorPage.jsx';
@@ -66,6 +69,16 @@ const router = createBrowserRouter([
     element: <AdminSignIn />,
     errorElement: <ErrorPage />,
     loader: adminLoginLoader,
+  },
+  {
+    path: "/student/signin",
+    element: <StudentSignin />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/student/signup",
+    element: <StudentSignup />,
+    errorElement: <ErrorPage />
   },
   {
     path: "/admin/dashboard",

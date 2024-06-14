@@ -12,4 +12,9 @@ const loginUser = async (credentials) => {
     return response.data;
 }
 
-export default { loginAdmin, loginUser };
+const loginStudent = async (credentials) => {
+    const response = await axios.post(baseUrl + "/student", credentials);
+    return response.data;
+}
+
+export default { loginAdmin, loginUser, loginStudent };
