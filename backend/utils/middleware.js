@@ -125,6 +125,37 @@ const userAdminExtractor = async (request, response, next) => {
     next();
 };
 
+const userStudentAdminExtractor = async (request, response, next) => {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!decodedToken.username) {
+        return response.status(401).json({ error: "Token invalid" });
+    }
+    const administrator = await dbConn.query(
+        "SELECT * FROM administrator WHERE username=?",
+        [decodedToken.username]
+    );
+    if (administrator.length !== 0) {
+        request.administrator = administrator[0];
+    } else {
+        const user = await dbConn.query("SELECT * FROM user WHERE username=?", [
+            decodedToken.username,
+        ]);
+        if (user.length !== 0) {
+            request.user = user[0];
+        } else {
+            const studentUser = await dbConn.query("SELECT * FROM student_user WHERE username=?", [
+                decodedToken.username,
+            ]);
+            if(studentUser.length!==0) {
+                request.user = user[0];
+            } else {
+                throw Error("Token invalid");
+            }
+        }
+    }
+    next();
+}
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
@@ -133,4 +164,5 @@ module.exports = {
     userExtractor,
     adminExtractor,
     userAdminExtractor,
+    userStudentAdminExtractor,
 };

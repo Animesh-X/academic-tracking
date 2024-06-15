@@ -64,6 +64,34 @@ departmentsRouter.get("/courses/count", async (request, response) => {
     return response.json(coursesCount);
 });
 
+departmentsRouter.get("/instructors/count/:id", async (request, response) => {
+    const departmentId = request.params.id;
+    const countQuery = `SELECT COUNT(instructor.id) as count
+                        FROM instructor 
+                        WHERE instructor.department_id = ?`;
+    const instructorsCount = await dbConn.query(countQuery, [departmentId]);
+    return response.json(instructorsCount[0].count);
+});
+
+departmentsRouter.get("/students/count/:id", async (request, response) => {
+    const departmentId = request.params.id;
+    const countQuery = `SELECT COUNT(student.roll) as count
+                        FROM student
+                        JOIN programme ON student.programme_id = programme.id
+                        WHERE programme.department_id = ?`;
+    const studentsCount = await dbConn.query(countQuery, [departmentId]);
+    return response.json(studentsCount[0].count);
+});
+
+departmentsRouter.get("/courses/count/:id", async (request, response) => {
+    const departmentId = request.params.id;
+    const countQuery = `SELECT COUNT(course.id) as count
+                        FROM course 
+                        WHERE course.department_id = ?`;
+    const coursesCount = await dbConn.query(countQuery, [departmentId]);
+    return response.json(coursesCount[0].count);
+});
+
 departmentsRouter.post("/", async (request, response) => {
     if (!request.administrator) {
         return response.status(403).end();

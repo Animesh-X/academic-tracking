@@ -114,6 +114,7 @@ loginRouter.post("/student", async (request, response) => {
     }
 
     const studentForToken = {
+        username: studentWithEmail.username,
         email: studentWithEmail.email,
     };
 
@@ -123,6 +124,7 @@ loginRouter.post("/student", async (request, response) => {
 
     response.status(200).send({
         token,
+        username: studentWithEmail.username,
         email: studentWithEmail.email,
         type: "student_user",
     });

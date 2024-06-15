@@ -123,14 +123,16 @@ signupRouter.post("/student", async (request, response) => {
             error: "No student exists for this email",
         });
     }
+    
+    const studentName = studentWithEmail[0].name;
 
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
     const query =
-        "INSERT INTO student_user (email, password_hash) VALUES (?, ?);";
+        "INSERT INTO student_user (email, password_hash, username) VALUES (?, ?, ?);";
 
-    await dbConn.query(query, [email, passwordHash]);
+    await dbConn.query(query, [email, passwordHash, studentName]);
 
     return response.status(201).end();
 })
