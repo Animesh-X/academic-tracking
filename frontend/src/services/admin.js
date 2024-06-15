@@ -187,15 +187,15 @@ const getSession = async (id) => {
 }
 
 const getCourseCountOfDepartment = async(id) => {
-    return axiosGET(`departments/courses/count/${id}`);
+    return axiosGET(`departments/${id}/courses/count`);
 }
 
 const getInstructorCountOfDepartment = async (id) => {
-    return axiosGET(`departments/instructors/count/${id}`);
+    return axiosGET(`departments/${id}/instructors/count`);
 }
 
 const getStudentCountOfDepartment = async (id) => {
-    return axiosGET(`departments/students/count/${id}`);
+    return axiosGET(`departments/${id}/students/count`);
 }
 
 export default {
