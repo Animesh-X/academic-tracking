@@ -64,7 +64,7 @@ departmentsRouter.get("/courses/count", async (request, response) => {
     return response.json(coursesCount);
 });
 
-departmentsRouter.get("/instructors/count/:id", async (request, response) => {
+departmentsRouter.get("/:id/instructors/count", async (request, response) => {
     const departmentId = request.params.id;
     const countQuery = `SELECT COUNT(instructor.id) as count
                         FROM instructor 
@@ -73,7 +73,7 @@ departmentsRouter.get("/instructors/count/:id", async (request, response) => {
     return response.json(instructorsCount[0].count);
 });
 
-departmentsRouter.get("/students/count/:id", async (request, response) => {
+departmentsRouter.get("/:id/students/count", async (request, response) => {
     const departmentId = request.params.id;
     const countQuery = `SELECT COUNT(student.roll) as count
                         FROM student
@@ -83,7 +83,7 @@ departmentsRouter.get("/students/count/:id", async (request, response) => {
     return response.json(studentsCount[0].count);
 });
 
-departmentsRouter.get("/courses/count/:id", async (request, response) => {
+departmentsRouter.get("/:id/courses/count", async (request, response) => {
     const departmentId = request.params.id;
     const countQuery = `SELECT COUNT(course.id) as count
                         FROM course 
