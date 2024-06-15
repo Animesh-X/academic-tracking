@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import CardAnalytics from "../../CardAnalytics";
-import services from '../../../services/admin'
+import services from '../../../services/admin';
 import '../../../styles/InstructorDetails.css';
 import Book from '../../../assets/book_image.png';
 

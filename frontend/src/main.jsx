@@ -29,6 +29,7 @@ import AddTakesPage from './components/dataforms/AddTakesPage.jsx';
 import AddTeachesPage from './components/dataforms/AddTeachesPage.jsx';
 
 import DepartmentPage from './components/analytics/department/DepartmentPage.jsx';
+import DepartmentDetails from './components/analytics/department/DepartmentDetails.jsx';
 
 import InstructorPage from './components/analytics/instructor/InstructorPage.jsx';
 import InstructorDetails from './components/analytics/instructor/InstructorDetails.jsx';
@@ -197,6 +198,12 @@ const router = createBrowserRouter([
   {
     path: "analytics/departments",
     element: <DepartmentPage />,
+    errorElement: <ErrorPage />,
+    loader: adminUserLoader
+  },
+  {
+    path: "analytics/department/:id",
+    element: <DepartmentDetails />,
     errorElement: <ErrorPage />,
     loader: adminUserLoader
   },

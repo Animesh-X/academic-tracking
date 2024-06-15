@@ -186,6 +186,18 @@ const getSession = async (id) => {
     return axiosGET(`sessions/${id}`);
 }
 
+const getCourseCountOfDepartment = async(id) => {
+    return axiosGET(`departments/courses/count/${id}`);
+}
+
+const getInstructorCountOfDepartment = async (id) => {
+    return axiosGET(`departments/instructors/count/${id}`);
+}
+
+const getStudentCountOfDepartment = async (id) => {
+    return axiosGET(`departments/students/count/${id}`);
+}
+
 export default {
     setToken,
     createAdmin,
@@ -219,5 +231,8 @@ export default {
     getDepartment,
     getSessionDetails,
     getSession,
-    changeAdminUsername
+    changeAdminUsername,
+    getCourseCountOfDepartment,
+    getInstructorCountOfDepartment,
+    getStudentCountOfDepartment
 };
