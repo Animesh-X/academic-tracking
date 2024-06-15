@@ -75,6 +75,12 @@ CREATE TABLE user (
     password_hash CHAR(60) NOT NULL
 );
 
+CREATE TABLE student_user (
+    email VARCHAR(255) PRIMARY KEY,
+    username VARCHAR(25) NOT NULL,
+    password_hash CHAR(60) NOT NULL
+);
+
 CREATE TABLE administrator (
 	username VARCHAR(25) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
