@@ -58,6 +58,19 @@ const axiosPUT = async (endpoint, data) => {
     }
 };
 
+const axiosDelete = async (endpoint) => {
+    try {
+        const response = await axios.delete(baseUrl + endpoint, config);
+        return response.data;
+    } catch (error) {
+        if (error.response.status == 401) {
+            handleJWTExpiry();
+        } else {
+            throw Error(error.response.data.error);
+        }
+    }
+};
+
 const createAdmin = async (data) => {
     return axiosPOST("admin", data);
 };
@@ -202,6 +215,10 @@ const getCoursesOfDepartment = async (id) => {
     return axiosGET(`departments/courses/${id}`);
 }
 
+const deleteInstructor = async (id) => {
+    return axiosDelete(`instructors/${id}`);
+}
+
 export default {
     setToken,
     createAdmin,
@@ -239,5 +256,6 @@ export default {
     getCourseCountOfDepartment,
     getInstructorCountOfDepartment,
     getStudentCountOfDepartment,
-    getCoursesOfDepartment
+    getCoursesOfDepartment,
+    deleteInstructor
 };
