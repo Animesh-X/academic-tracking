@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Typography } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import CardAnalytics from '../../CardAnalytics';
@@ -19,6 +19,7 @@ export default function DepartmentDetails () {
     const [instructorsCount, setInstructorsCount] = useState();
     const [studentsCount, setStudentsCount] = useState();
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     const labels = ['Total Courses', 'Total Instructors','Total Students'];
 
@@ -104,7 +105,7 @@ export default function DepartmentDetails () {
                 columns={{ xs: 4, sm: 8, md: 12 }}
                 className="grid-container"
         >
-        <Grid item xs={2} sm={4} md={4}>
+        <Grid item xs={2} sm={4} md={4} onClick={() => navigate(`/analytics/department/courses/${id}`)}>
           <CardAnalytics title={coursesCount} subTitle="Total Courses" image_src={CourseImg}/>
         </Grid>
         <Grid item xs={2} sm={4} md={4}>

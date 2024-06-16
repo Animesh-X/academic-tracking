@@ -12,7 +12,7 @@ export default function CardAnalytics(props) {
           component="img"
           height="170"
           image={props.image_src}
-          alt="green iguana"
+          alt="img"
         />
         <CardContent>
           <Typography gutterBottom variant="h4" component="div" style={{ textAlign: 'center' }} >

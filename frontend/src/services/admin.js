@@ -198,6 +198,10 @@ const getStudentCountOfDepartment = async (id) => {
     return axiosGET(`departments/${id}/students/count`);
 }
 
+const getCoursesOfDepartment = async (id) => {
+    return axiosGET(`departments/courses/${id}`);
+}
+
 export default {
     setToken,
     createAdmin,
@@ -234,5 +238,6 @@ export default {
     changeAdminUsername,
     getCourseCountOfDepartment,
     getInstructorCountOfDepartment,
-    getStudentCountOfDepartment
+    getStudentCountOfDepartment,
+    getCoursesOfDepartment
 };
