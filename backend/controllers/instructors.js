@@ -223,7 +223,7 @@ instructorsRouter.delete("/:id", async (request, response) => {
     }
 
     const instructorList = await dbConn.query(
-        "SELECT id, name, designation, dept_name FROM instructor WHERE id=?",
+        "SELECT * FROM instructor WHERE id=?",
         [id]
     );
 
