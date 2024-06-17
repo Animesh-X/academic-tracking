@@ -153,6 +153,82 @@ coursesRouter.get("/:id/sessions/:session_id", async (request, response) => {
     });
 });
 
+coursesRouter.get("/:id/sessions/:session_id/avg_grade", async (request, response) => {
+    const { id, session_id} = request.params;
+
+    if (!id instanceof Number || id % 1 !== 0) {
+        return response.status(400).json({ error: "'id' must be a number." });
+    }
+
+    if (!session_id) {
+        return response
+            .status(400)
+            .json({ error: "Missing parameter session_id" });
+    }
+
+    if (!session_id instanceof Number || session_id % 1 !== 0) {
+        return response
+            .status(400)
+            .json({ error: "'session_id' must be a number." });
+    }
+
+    const avgGradeQuery = `SELECT course.title, course.code, avg(grade) as avg_grade, count(takes.student_roll) as student_count 
+    FROM takes
+    JOIN course
+    ON takes.course_id = course.id
+    JOIN instructor
+    ON takes.taught_by = instructor.id
+    WHERE takes.course_id = ? AND takes.session_id = ?`;
+
+    const avgGrade = await dbConn.query(avgGradeQuery, [id, session_id]);
+
+    return response.json(avgGrade);
+})
+
+coursesRouter.get("/:id/sessions/:session_id/instructors/:instructor_id", async (request, response) => {
+    const { id, session_id, instructor_id } = request.params;
+
+    if (!id instanceof Number || id % 1 !== 0) {
+        return response.status(400).json({ error: "'id' must be a number." });
+    }
+
+    if (!session_id) {
+        return response
+            .status(400)
+            .json({ error: "Missing parameter session_id" });
+    }
+
+    if (!session_id instanceof Number || session_id % 1 !== 0) {
+        return response
+            .status(400)
+            .json({ error: "'session_id' must be a number." });
+    }
+
+    if (!instructor_id) {
+        return response
+            .status(400)
+            .json({ error: "Missing parameter instructor" });
+    }
+
+    if (!instructor_id instanceof Number || instructor_id % 1 !== 0) {
+        return response
+            .status(400)
+            .json({ error: "'instructor_id' must be a number." });
+    }
+
+    const avgGradeQuery = `SELECT course.title, course.code, avg(grade) as avg_grade, count(takes.student_roll) as student_count
+    FROM takes
+    JOIN course
+    ON takes.course_id = course.id
+    JOIN instructor
+    ON takes.taught_by = instructor.id
+    WHERE takes.course_id = ? AND takes.session_id = ? AND takes.taught_by = ?`;
+
+    const avgGrade = await dbConn.query(avgGradeQuery, [id, session_id, instructor_id]);
+
+    return response.json(avgGrade);
+});
+
 coursesRouter.post("/", async (request, response) => {
     if (!request.administrator) {
         return response.status(403).end();
