@@ -231,6 +231,10 @@ const getInstructorOfCourse = async (courseId, sessionId) => {
     return axiosGET(`courses/${courseId}/sessions/${sessionId}`);
 }
 
+const getStudentCountForProgrammes = async () => {
+    return axiosGET(`students/programmes/count`);
+}
+
 export default {
     setToken,
     createAdmin,
@@ -272,5 +276,6 @@ export default {
     deleteInstructor,
     getAvgGradeForCourseForSession,
     getAvgGradeForCourseForSessionForInstructor,
-    getInstructorOfCourse
+    getInstructorOfCourse,
+    getStudentCountForProgrammes
 };

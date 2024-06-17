@@ -70,8 +70,8 @@ export default function InstructorCourse () {
                 id: instructor.instructor_id,
             }));
             console.log(formattedData[0].id);
-            const filteredData = formattedData.filter((instructor) => instructor.id !== currInstructor?.id);
-              setInstructorsList(filteredData);
+            const filteredData = formattedData.filter((instructor) => instructor.id !== currInstructor.id);
+            setInstructorsList(filteredData);
           })
           .catch((error) => {
               setErrorMessage("Error fetching instructors");
@@ -135,7 +135,7 @@ export default function InstructorCourse () {
                 </Typography>
             </Box>
             <BarChart data={data} />
-            <InteractiveList data={instructorsList} showSecondary={true} handleClick={handleClick} header="Other Instructors taking this course" />
+            <InteractiveList data={instructorsList} showSecondary={true} handleClick={handleClick} header="Instructors taking this course" />
         </SideBar>
     );
     return content;
