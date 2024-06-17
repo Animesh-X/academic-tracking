@@ -19,6 +19,7 @@ const Demo = styled('div')(({ theme }) => ({
 
 export default function InteractiveList(props) {
   const [secondary, setSecondary] = React.useState(props.showSecondary);
+  const [showDeleteOption, setShowDeleteOption] = React.useState(props.showDeleteOption);
 
 
   const user = JSON.parse(
@@ -37,13 +38,13 @@ export default function InteractiveList(props) {
                 <ListItem
                   key={item.id}
                   secondaryAction={
-                    user?.type === "administrator" ? (
+                    user?.type === "administrator" && showDeleteOption ? (
                       <IconButton edge="end" aria-label="delete" onClick={(event) => props.handleDeleteClick(item.id, event)}>
                         <DeleteIcon />
                       </IconButton>
                     ) : null
                   }
-                  onClick={() => props.handleClick(item.id)}
+                  onClick={() => props.handleClick(item.id, item.secId)}
                   sx={{ cursor: 'pointer', mb: 2}}
                 >
                   <ListItemAvatar>

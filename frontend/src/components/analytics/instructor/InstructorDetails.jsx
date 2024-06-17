@@ -8,6 +8,7 @@ import CardAnalytics from "../../CardAnalytics";
 import services from "../../../services/admin";
 import '../../../styles/InstructorDetails.css';
 import Book from '../../../assets/book_image.png';
+import InteractiveList from '../../InteractiveList';
 
 export default function InstructorDetails() {
   const { id } = useParams();
@@ -29,26 +30,29 @@ export default function InstructorDetails() {
     services
       .getCourseInstructor(id)
       .then((data) => {
-        setDetails(data);
-        console.log(data);
+        const formattedData = data.map((courseData) => ({
+          primaryText: courseData.course_code + " " + courseData.course_title,
+          secondaryText: `${courseData.season.toUpperCase()} ${courseData.start_year}`,
+          id: courseData.course_id,
+          secId: courseData.session_id,
+      }));
+        setDetails(formattedData);
+        console.log(formattedData);
       })
       .catch((error) => console.error("Error fetching Courses:", error));
   }, []);
 
-  const handleClick = (id) => {
-    navigate(`/analytics/course/${id}`);
+  const handleClick = (courseId, sessionId) => {
+    console.log(`Course Id ${courseId} Session Id ${sessionId}`);
+    navigate(`/analytics/instructor/${id}/course/${courseId}/session/${sessionId}`);
   }
 
   return (
     <SideBar>
       <Typography variant="h4" component="h4" className='typography-detail'>
-        Courses offered by Dr {instructor.name}
+        Courses offered by Dr. {instructor.name}
       </Typography>
-      <div className='container-instructor-detail'>
-        {details.map(detail => (
-          <div key={detail.course_id} onClick={() => handleClick(detail.course_id)}><CardAnalytics title={`${detail.course_code} ${detail.course_title}`} subTitle={`${detail.start_year} ${detail.season}`} image_src={Book} /></div>
-        ))}
-      </div>
+      <InteractiveList data={details} showSecondary={true} handleClick={handleClick}/>
     </SideBar>
   );
 }

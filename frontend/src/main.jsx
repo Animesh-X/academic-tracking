@@ -30,9 +30,11 @@ import AddTeachesPage from './components/dataforms/AddTeachesPage.jsx';
 
 import DepartmentPage from './components/analytics/department/DepartmentPage.jsx';
 import DepartmentDetails from './components/analytics/department/DepartmentDetails.jsx';
+import DepartmentCourse from './components/analytics/department/DepartmentCourse.jsx';
 
 import InstructorPage from './components/analytics/instructor/InstructorPage.jsx';
 import InstructorDetails from './components/analytics/instructor/InstructorDetails.jsx';
+import InstructorCourse from './components/analytics/instructor/InstructorCourse.jsx';
 
 import CoursePage from './components/analytics/courses/CoursePage.jsx';
 import CourseDetails from './components/analytics/courses/CourseDetails.jsx';
@@ -44,7 +46,6 @@ import SessionDetails from './components/analytics/session/SessionDetails.jsx';
 
 import AdminDashBoard from './components/AdminDashBoard.jsx';
 import Analytics from './components/Analytics.jsx';
-import DepartmentCourse from './components/analytics/department/DepartmentCourse.jsx';
 
 
 const router = createBrowserRouter([
@@ -169,6 +170,12 @@ const router = createBrowserRouter([
   {
     path: "analytics/instructor/:id",
     element: <InstructorDetails />,
+    errorElement: <ErrorPage />,
+    loader: adminUserLoader
+  },
+  {
+    path: "analytics/instructor/:id/course/:courseId/session/:sessionId",
+    element: <InstructorCourse />,
     errorElement: <ErrorPage />,
     loader: adminUserLoader
   },

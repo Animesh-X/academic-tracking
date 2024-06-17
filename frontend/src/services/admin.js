@@ -219,6 +219,18 @@ const deleteInstructor = async (id) => {
     return axiosDelete(`instructors/${id}`);
 }
 
+const getAvgGradeForCourseForSession = async (courseId, sessionId) => {
+    return axiosGET(`courses/${courseId}/sessions/${sessionId}/avg_grade`)
+}
+
+const getAvgGradeForCourseForSessionForInstructor = async (courseId, sessionId, instructorId) => {
+    return axiosGET(`courses/${courseId}/sessions/${sessionId}/instructors/${instructorId}`);
+}
+
+const getInstructorOfCourse = async (courseId, sessionId) => {
+    return axiosGET(`courses/${courseId}/sessions/${sessionId}`);
+}
+
 export default {
     setToken,
     createAdmin,
@@ -257,5 +269,8 @@ export default {
     getInstructorCountOfDepartment,
     getStudentCountOfDepartment,
     getCoursesOfDepartment,
-    deleteInstructor
+    deleteInstructor,
+    getAvgGradeForCourseForSession,
+    getAvgGradeForCourseForSessionForInstructor,
+    getInstructorOfCourse
 };
