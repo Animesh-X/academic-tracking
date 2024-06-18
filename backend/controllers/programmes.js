@@ -8,6 +8,18 @@ programmesRouter.get("/", async (request, response) => {
     return response.json(programmes);
 });
 
+programmesRouter.get("/:id", async (request, response) => {
+    const { id } = request.params;
+    const programme = await dbConn.query("SELECT * FROM programme WHERE id = ?", [id]);
+    return response.json(programme);
+});
+
+programmesRouter.get("/students/:id", async (request, response) => {
+    const { id } = request.params;
+    const students = await dbConn.query("SELECT * FROM student WHERE programme_id = ?", [id]);
+    return response.json(students);
+})
+
 programmesRouter.get("/count", async (request, response) => {
     const programmeCount = await dbConn.query('SELECT COUNT(*) as count FROM programme');
     return response.json(programmeCount[0].count);
