@@ -6,6 +6,7 @@ import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import services from "../../../services/admin";
 import { Box, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentPage () {
     const [studentCount, setStudentCount] = useState(0);
@@ -13,6 +14,8 @@ export default function StudentPage () {
     const [pieData, setPieData] = useState([]);
     const [pieLabels, setPieLabels] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const navigate = useNavigate();
 
     const user = JSON.parse(
         localStorage.getItem("loggedAcademicTrackingAdmin") ||
@@ -64,7 +67,8 @@ export default function StudentPage () {
       }
 
       const handleClick = (id) => {
-        console.log(id);
+
+        navigate(`/analytics/students/programme/${id}`);
       }
 
     return (
