@@ -204,7 +204,7 @@ studentsRouter.get("/:roll/courses", async (request, response) => {
         JOIN session ON session.id = session_id
         JOIN instructor ON instructor.id = taught_by
         WHERE roll=?
-        ORDER BY semester_number;`;
+        ORDER BY semester_number desc;`;
 
     const courses = await dbConn.query(coursesQuery, [roll]);
 
