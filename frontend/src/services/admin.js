@@ -243,6 +243,31 @@ const getStudentsForProgramme = async (id) => {
     return axiosGET(`programmes/students/${id}`);
 }
 
+const deleteStudent = async (roll) => {
+    return axiosDelete(`students/${roll}`);
+}
+
+const getStudent = async (roll) => {
+    return axiosGET(`students/${roll}`);
+}
+
+const getSemester = async (roll) => {
+    return axiosGET(`students/${roll}/semesters`);
+}
+
+const getSPI = async (roll, semesterNo) => {
+    return axiosGET(`students/${roll}/spi/${semesterNo}`);
+}
+
+
+const getCPI = async (roll) => {
+    return axiosGET(`students/${roll}/cpi`);
+}
+
+const getCourseOfStudent = async (roll) => {
+    return axiosGET(`students/${roll}/courses`);
+}
+
 export default {
     setToken,
     createAdmin,
@@ -287,5 +312,11 @@ export default {
     getInstructorOfCourse,
     getStudentCountForProgrammes,
     getProgrammeForId,
-    getStudentsForProgramme
+    getStudentsForProgramme,
+    deleteStudent,
+    getStudent,
+    getSemester,
+    getCPI,
+    getSPI,
+    getCourseOfStudent
 };

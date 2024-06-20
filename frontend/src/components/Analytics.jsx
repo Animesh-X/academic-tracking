@@ -45,6 +45,7 @@ export default function Analytics() {
       .catch(error => console.error('Error getting students count', error));
     adminServices.getProgrammesCount()
       .then((programmeCount) => {
+        console.log(programmeCount);
         setProgrammeCount(programmeCount);
       })
       .catch(error => console.error('Error getting students count', error));

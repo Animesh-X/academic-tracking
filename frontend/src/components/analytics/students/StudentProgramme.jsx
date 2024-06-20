@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import InteractiveList from '../../InteractiveList';
@@ -11,6 +11,7 @@ import AutoCompleteInput from "../../AutoCompleteInput";
 export default function StudentProgramme () {
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const [programme, setProgramme] = useState();
     const [studentsList, setStudentsList] = useState([]);
     const [formattedStudentList, setFormattedStudentList] = useState([]);
@@ -61,6 +62,25 @@ export default function StudentProgramme () {
 
     const handleClick = (roll) => {
         console.log(roll);
+        navigate(`/analytics/student/${roll}`);
+    }
+
+    const handleDeleteClick = (roll, event) => {
+        event.stopPropagation();
+        console.log(roll);
+        services
+        .deleteStudent(Number(roll))
+        .then(() => {
+            alert("Student deleted successfully!");
+            setFormattedStudentList((prevStudentList) => prevStudentList.filter((student) => student.id !== roll));
+        })
+        .catch((error) => {
+            setErrorMessage("Error deleting student");
+            console.error(error);
+            setTimeout(() => {
+            setErrorMessage("");
+            }, 5000);
+        });
     }
 
     return (
@@ -69,7 +89,7 @@ export default function StudentProgramme () {
             <Box sx={{ml: 3, mt: 3}}>
                 <Typography variant="h4" sx={{mb: 4}}>{`Students enrolled in ${programme?.degree} ${programme?.name}`}</Typography>
                 <AutoCompleteInput data={searchData} label="Enter roll no to search" handleClick={handleClick}/>
-                <InteractiveList data={formattedStudentList} showSecondary={true} handleClick={handleClick}/>
+                <InteractiveList data={formattedStudentList} showSecondary={true} handleClick={handleClick} showDeleteOption = {true} handleDeleteClick = {handleDeleteClick}/>
             </Box>
         </SideBar>
     )

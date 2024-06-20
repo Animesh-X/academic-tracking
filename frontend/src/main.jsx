@@ -48,6 +48,7 @@ import AdminDashBoard from './components/AdminDashBoard.jsx';
 import Analytics from './components/Analytics.jsx';
 import StudentPage from './components/analytics/students/StudentPage.jsx';
 import StudentProgramme from './components/analytics/students/StudentProgramme.jsx';
+import StudentDetail from './components/analytics/students/StudentDetail.jsx';
 
 
 const router = createBrowserRouter([
@@ -232,6 +233,12 @@ const router = createBrowserRouter([
   {
     path: "analytics/students/programme/:id",
     element: <StudentProgramme />,
+    errorElement: <ErrorPage />,
+    loader: adminUserLoader
+  },
+  {
+    path: "analytics/student/:roll",
+    element: <StudentDetail />,
     errorElement: <ErrorPage />,
     loader: adminUserLoader
   },

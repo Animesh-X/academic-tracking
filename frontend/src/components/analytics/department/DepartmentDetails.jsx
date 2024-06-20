@@ -108,10 +108,10 @@ export default function DepartmentDetails () {
         <Grid item xs={2} sm={4} md={4} onClick={() => navigate(`/analytics/department/courses/${id}`)}>
           <CardAnalytics title={coursesCount} subTitle="Total Courses" image_src={CourseImg}/>
         </Grid>
-        <Grid item xs={2} sm={4} md={4}>
+        <Grid item xs={2} sm={4} md={4} onClick={() => navigate(`/analytics/instructors`)}>
           <CardAnalytics title={instructorsCount} subTitle="Total Instructors" image_src={InstructorImg}/>
         </Grid>
-        <Grid item xs={2} sm={4} md={4}>
+        <Grid item xs={2} sm={4} md={4} onClick={() => navigate(`/analytics/students`)}>
           <CardAnalytics title={studentsCount} subTitle="Total Students" image_src={StudentImg}/>
         </Grid>
         </Grid>
