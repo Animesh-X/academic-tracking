@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLoaderData, useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
-import CardAnalytics from "../../CardAnalytics";
 import services from "../../../services/admin";
 import '../../../styles/InstructorDetails.css';
-import Book from '../../../assets/book_image.png';
 import InteractiveList from '../../InteractiveList';
 
 export default function InstructorDetails() {
   const { id } = useParams();
+  const [errorMessage, setErrorMessage] = useState("");
   const [instructor, setInstructor] = useState([]);
   const [details, setDetails] = useState([]);
-  const user = JSON.parse(localStorage.getItem("loggedAcademicTrackingAdmin") || localStorage.getItem("loggedAcademicTrackingUser"));
+  const { user } = useLoaderData();
   const navigate = useNavigate();
 
 
@@ -26,7 +24,13 @@ export default function InstructorDetails() {
         setInstructor(data);
         console.log(data);
       })
-      .catch((error) => console.error("Error fetching Instructor:", error));
+      .catch((error) => {
+        setErrorMessage("Error fetching Instructor. Please check console for more details.");
+        console.error(error);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 5000);
+      });
     services
       .getCourseInstructor(id)
       .then((data) => {
@@ -39,20 +43,36 @@ export default function InstructorDetails() {
         setDetails(formattedData);
         console.log(formattedData);
       })
-      .catch((error) => console.error("Error fetching Courses:", error));
-  }, []);
+      .catch((error) => {
+        setErrorMessage("Error fetching Courses. Please check console for more details.");
+        console.error(error);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 5000);
+      });
+  }, [user?.token]);
 
   const handleClick = (courseId, sessionId) => {
     console.log(`Course Id ${courseId} Session Id ${sessionId}`);
     navigate(`/analytics/instructor/${id}/course/${courseId}/session/${sessionId}`);
   }
 
-  return (
+  const content = details.length === 0 ? (
     <SideBar>
+      <ErrorMessage errorMessage={errorMessage} />
+      <Typography variant="h4" component="h4" sx={{ mt: 5, mb: 3, ml: 3 }}>
+                No Course taught by Dr. {instructor.name}
+      </Typography>
+    </SideBar>
+  ) : (
+    <SideBar>
+      <ErrorMessage errorMessage={errorMessage} />
       <Typography variant="h4" component="h4" className='typography-detail'>
         Courses offered by Dr. {instructor.name}
       </Typography>
       <InteractiveList data={details} showSecondary={true} handleClick={handleClick}/>
     </SideBar>
-  );
+  )
+
+  return content;
 }

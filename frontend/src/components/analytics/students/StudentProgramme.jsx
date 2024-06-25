@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLoaderData } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import InteractiveList from '../../InteractiveList';
 import services from "../../../services/admin";
-import { Box, Typography } from "@mui/material";
 import AutoCompleteInput from "../../AutoCompleteInput";
 
 
@@ -18,10 +18,7 @@ export default function StudentProgramme () {
     const [searchData, setSearchData] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-        localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
 
     useEffect(() => {
         services.setToken(user?.token);
@@ -31,7 +28,7 @@ export default function StudentProgramme () {
             setProgramme(data[0]);
         })
         .catch((error) => {
-            setErrorMessage("Error fetching inctructor details");
+            setErrorMessage("Error fetching programmes details. Plese check console for more details.");
             console.error(error);
             setTimeout(() => {
             setErrorMessage("");
@@ -52,16 +49,17 @@ export default function StudentProgramme () {
             setSearchData(searchData);
         })
         .catch((error) => {
-            setErrorMessage("Error fetching Students List");
+            setErrorMessage("Error fetching Students List. Plese check console for more details.");
             console.error(error);
             setTimeout(() => {
             setErrorMessage("");
             }, 5000);
         });
-    }, []);
+    }, [user?.token]);
 
     const handleClick = (roll) => {
         console.log(roll);
+        const student = 
         navigate(`/analytics/student/${roll}`);
     }
 
@@ -75,7 +73,7 @@ export default function StudentProgramme () {
             setFormattedStudentList((prevStudentList) => prevStudentList.filter((student) => student.id !== roll));
         })
         .catch((error) => {
-            setErrorMessage("Error deleting student");
+            setErrorMessage("Error deleting student. Plese check console for more details.");
             console.error(error);
             setTimeout(() => {
             setErrorMessage("");

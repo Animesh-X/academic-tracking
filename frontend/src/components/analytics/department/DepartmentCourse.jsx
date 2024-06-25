@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLoaderData } from "react-router-dom";
 import { Typography } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import ErrorMessage from "../../ErrorMessage";
@@ -13,10 +13,7 @@ export default function DepartmentCourse () {
     const [details, setDetails] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-        localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
 
     useEffect(() => {
         services.setToken(user?.token);
@@ -32,7 +29,7 @@ export default function DepartmentCourse () {
               setErrorMessage("");
             }, 5000);
           });
-    }, []);
+    }, [user?.token]);
 
     return (
         <SideBar>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLoaderData } from 'react-router-dom'
 import { Typography } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import CardAnalytics from '../../CardAnalytics';
@@ -35,10 +35,7 @@ export default function DepartmentDetails () {
       ]
     }
 
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-        localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
 
     useEffect(() => {
         services.setToken(user?.token);
@@ -90,7 +87,7 @@ export default function DepartmentDetails () {
               setErrorMessage("");
             }, 5000);
           });
-    }, []);
+    }, [user?.token]);
 
 
     return (

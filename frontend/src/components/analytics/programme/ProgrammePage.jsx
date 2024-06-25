@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
@@ -10,7 +11,7 @@ import '../../../styles/ProgrammePage.css';
 const ProgrammePage = () => {
   const [programmes, setProgrammes] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const user = JSON.parse(localStorage.getItem("loggedAcademicTrackingAdmin") || localStorage.getItem("loggedAcademicTrackingUser"));
+  const { user } = useLoaderData();
 
   useEffect(() => {
     adminServices.setToken(user?.token);
@@ -26,7 +27,7 @@ const ProgrammePage = () => {
           setErrorMessage("");
         }, 5000);
       });
-  }, []);
+  }, [user?.token]);
 
   return (
     <SideBar>

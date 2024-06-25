@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useParams, useLoaderData } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import SideBar from "../../SideBar";
 import BarChart from "../../BarChart";
 import InteractiveList from "../../InteractiveList";
 import ErrorMessage from "../../ErrorMessage";
 import services from "../../../services/admin";
-import { useNavigate, useParams } from "react-router-dom";
 
 export default function InstructorCourse () {
     const { id, courseId, sessionId } = useParams();
@@ -19,10 +19,7 @@ export default function InstructorCourse () {
 
     const navigate = useNavigate();
 
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-        localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
 
     const labels = ["Total Students", "Average Grade"];
 
@@ -74,7 +71,7 @@ export default function InstructorCourse () {
             setInstructorsList(filteredData);
           })
           .catch((error) => {
-              setErrorMessage("Error fetching instructors");
+              setErrorMessage("Error fetching instructor. Plese check console for more details.");
               console.error(error);
               setTimeout(() => {
                 setErrorMessage("");
@@ -87,7 +84,7 @@ export default function InstructorCourse () {
             console.log(data);
         })
         .catch((error) => {
-            setErrorMessage("Error fetching instructors");
+            setErrorMessage("Error fetching Average Grades. Plese check console for more details.");
             console.error(error);
             setTimeout(() => {
               setErrorMessage("");
@@ -100,13 +97,13 @@ export default function InstructorCourse () {
               console.log(data);
           })
           .catch((error) => {
-              setErrorMessage("Error fetching instructors");
+              setErrorMessage("Error fetching Grades. Plese check console for more details.");
               console.error(error);
               setTimeout(() => {
                 setErrorMessage("");
               }, 5000);
             });
-    }, [])
+    }, [user?.token]);
 
     const content = avgGrade.length === 0 || avgGrade[0]?.student_count === 0 ? (
         <SideBar>

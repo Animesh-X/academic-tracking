@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLoaderData, useParams } from 'react-router-dom'
 import { Typography } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import SideBar from "../../SideBar";
@@ -10,9 +10,10 @@ import Course from '../../../assets/course_image.png';
 
 export default function SessionDetails() {
   const { id } = useParams();
+  const [errorMessage, setErrorMessage] = useState("");
   const [session, setSession] = useState([]);
   const [details, setDetails] = useState([]);
-  const user = JSON.parse(localStorage.getItem("loggedAcademicTrackingAdmin") || localStorage.getItem("loggedAcademicTrackingUser"));
+  const { user } = useLoaderData();
 
   useEffect(() => {
     services.setToken(user.token);
@@ -22,20 +23,33 @@ export default function SessionDetails() {
             setSession(data);
             console.log(data);
         })
-        .catch((error) => console.error("Error fetching session: ", error));
+        .catch((error) => {
+          setErrorMessage("Error fetching Sessions. Please check console for more details.");
+          console.error(error);
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 5000);
+        });
     services
       .getSessionDetails(id)
       .then((data) => {
         setDetails(data);
         console.log(data);
       })
-      .catch((error) => console.error("Error fetching details of Session:", error));
-  }, []);
+      .catch((error) => {
+        setErrorMessage("Error fetching Details of Session. Please check console for more details.");
+        console.error(error);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 5000);
+      });
+  }, [user?.token]);
 
   
 
   return (
     <SideBar>
+      <ErrorMessage errorMessage={errorMessage} />
       <Typography variant="h4" component="h4" className='typography-detail'>
         {`Courses offered in ${session.season} ${session.start_year}`}
       </Typography>

@@ -19,11 +19,12 @@ const getUserFromLocalStorage = () => {
 
 const adminUserLoader = async () => {
   const admin = getAdminFromLocalStorage();
-  const user = getUserFromLocalStorage();
-  if (!admin && !user) {
+  const loggedInUser = getUserFromLocalStorage();
+  if (!admin && !loggedInUser) {
     return redirect("/admin/signin");
   }
-  return { admin, user };
+  const user = admin || loggedInUser;
+  return { user };
 };
 
 export default adminUserLoader;

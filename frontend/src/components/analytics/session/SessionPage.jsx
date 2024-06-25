@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import CardAnalytics from "../../CardAnalytics";
@@ -12,17 +12,20 @@ export default function SessionPage() {
     const [sessions, setSessions] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-            localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
     useEffect(() => {
-        services.setToken(user.token);
+        services.setToken(user?.token);
         services
             .getAllSessions()
             .then((data) => setSessions(data))
-            .catch((error) => setErrorMessage(error));
-    }, []);
+            .catch((error) => {
+                setErrorMessage("Error fetching Sessions. Please check console for more details.");
+                console.error(error);
+                setTimeout(() => {
+                  setErrorMessage("");
+                }, 5000);
+              });
+    }, [user?.token]);
 
     const handleClick = async (sessionId) => {
         navigate(`/analytics/session/${sessionId}`);

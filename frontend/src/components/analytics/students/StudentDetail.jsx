@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useLoaderData } from "react-router-dom";
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import BarChart from "../../BarChart";
 import services from "../../../services/admin";
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import CollapsibleTable from "../../CollapsibleTable";
 
@@ -16,10 +16,7 @@ export default function StudentDetail() {
     const [spi, setSPI] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-            localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
 
     useEffect(() => {
         services.setToken(user?.token);
@@ -64,7 +61,7 @@ export default function StudentDetail() {
                 setSemesters(semesters);
             })
             .catch((error) => {
-                setErrorMessage("Error fetching semesters");
+                setErrorMessage("Error fetching semesters. Plese check console for more details.");
                 console.error(error);
                 setTimeout(() => {
                     setErrorMessage("");
@@ -77,7 +74,7 @@ export default function StudentDetail() {
                 setCPI(cpi);
             })
             .catch((error) => {
-                setErrorMessage("Error fetching CPI");
+                setErrorMessage("Error fetching CPI. Plese check console for more details.");
                 console.error(error);
                 setTimeout(() => {
                     setErrorMessage("");
@@ -90,7 +87,7 @@ export default function StudentDetail() {
                 setCourses(data);
             })
             .catch((error) => {
-                setErrorMessage("Error fetching Course");
+                setErrorMessage("Error fetching Course. Plese check console for more details.");
                 console.error(error);
                 setTimeout(() => {
                     setErrorMessage("");
@@ -145,12 +142,6 @@ export default function StudentDetail() {
   });
 
   console.log(rows);
-
-  
-  
-
-
-
 
     return (
         <SideBar>

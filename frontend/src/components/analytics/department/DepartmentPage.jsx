@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
@@ -14,10 +14,8 @@ export default function DepartmentPage() {
     const [departments, setDepartments] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-        localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
+    console.log(`ewfwejf ${user.type}`);
 
     useEffect(() => {
         services.setToken(user.token);
@@ -25,7 +23,7 @@ export default function DepartmentPage() {
             .getAllDepartments()
             .then((data) => setDepartments(data))
             .catch((error) => setErrorMessage(error));
-    }, []);
+    }, [user?.token]);
 
     const handleClick = (id) => {
         console.log(id);

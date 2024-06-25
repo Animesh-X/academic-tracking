@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import InteractiveList from '../../InteractiveList';
@@ -15,11 +15,7 @@ export default function InstructorPage() {
   const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
 
-  // TODO Handle this
-  const user = JSON.parse(
-    localStorage.getItem("loggedAcademicTrackingAdmin") ||
-    localStorage.getItem("loggedAcademicTrackingUser")
-  );
+  const { user } = useLoaderData();
 
   const handleClick = (id) => {
     console.log("CLICK",id);
@@ -36,7 +32,7 @@ export default function InstructorPage() {
         setInstructorData((prevInstructorData) => prevInstructorData.filter((instructor) => instructor.id !== id));
       })
       .catch((error) => {
-        setErrorMessage("Error fetching instructors");
+        setErrorMessage("Error fetching instructors. Plese check console for more details.");
         console.error(error);
         setTimeout(() => {
           setErrorMessage("");
@@ -65,14 +61,14 @@ export default function InstructorPage() {
         setSearchData(searchData)
       })
       .catch((error) => {
-        setErrorMessage("Error fetching instructors");
+        setErrorMessage("Error fetching instructors. Plese check console for more details.");
         console.error(error);
         setTimeout(() => {
           setErrorMessage("");
         }, 5000);
       });
 
-  }, []);
+  }, [user?.token]);
 
   return (
     <SideBar>

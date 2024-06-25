@@ -1,12 +1,11 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import BarChart from "../../BarChart";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import Button from '@mui/material/Button';
+import { Box, Typography } from "@mui/material";
 import SideBar from "../../SideBar";
+import BarChart from "../../BarChart";
 import ErrorMessage from "../../ErrorMessage";
 import services from "../../../services/admin";
-import { Box, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 export default function StudentPage () {
     const [studentCount, setStudentCount] = useState(0);
@@ -17,10 +16,7 @@ export default function StudentPage () {
 
     const navigate = useNavigate();
 
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin") ||
-        localStorage.getItem("loggedAcademicTrackingUser")
-    );
+    const { user } = useLoaderData();
 
     useEffect(() => {
         services.setToken(user?.token);
@@ -29,7 +25,7 @@ export default function StudentPage () {
             setStudentCount(studentCount);
         })
         .catch((error) => {
-            setErrorMessage("Error fetching count of student");
+            setErrorMessage("Error fetching count of student. Plese check console for more details.");
             console.error(error);
             setTimeout(() => {
             setErrorMessage("");
@@ -46,13 +42,13 @@ export default function StudentPage () {
             setPieData(pData);
         })
         .catch((error) => {
-            setErrorMessage("Error fetching details of students");
+            setErrorMessage("Error fetching details of students. Plese check console for more details.");
             console.error(error);
             setTimeout(() => {
             setErrorMessage("");
             }, 5000);
         });
-    }, []);
+    }, [user?.token]);
 
     const data = {
         labels: pieLabels,
