@@ -20,6 +20,7 @@ import TextField from "@mui/material/TextField";
 import adminService from "../services/admin";
 import userService from "../services/user";
 import ErrorMessage from "./ErrorMessage";
+import SuccessMessage from "./SuccessMessage";
 import { useLoaderData } from "react-router-dom";
 
 const pages = ["Products", "Pricing", "Blog"];
@@ -44,6 +45,7 @@ function ResponsiveAppBar() {
     const [securityQuestion, setSecurityQuestion] = React.useState("");
     const [security_answer, setSecurityAnswer] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [successMessage, setSuccessMessage] = React.useState("");
     const [email, setEmail] = React.useState("");
     const { admin, user } = useLoaderData();
 
@@ -106,7 +108,10 @@ function ResponsiveAppBar() {
             adminService
                 .changeAdminPassword(credentials)
                 .then(() => {
-                    alert("Successfully changed password!");
+                    setSuccessMessage("Password changed successfully!");
+                    setTimeout(() => {
+                        setSuccessMessage("");
+                    }, 3000);
                 })
                 .catch((error) => {
                     if (error.response.data.error) {
@@ -541,6 +546,7 @@ function ResponsiveAppBar() {
                 </Box>
             </Modal>
             <ErrorMessage errorMessage={errorMessage} />
+            <SuccessMessage message={successMessage} />
         </>
     );
 }
