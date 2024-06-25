@@ -8,25 +8,26 @@ import {
     Select,
     MenuItem,
 } from "@mui/material";
+import { useLoaderData } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 import SideBar from "../SideBar";
 import { Box } from "@mui/system";
 import adminServices from "../../services/admin";
 
 const AddTeachesPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
     const [courses, setCourses] = useState([]);
     const [instructors, setInstructors] = useState([]);
     const [sessions, setSessions] = useState([]);
     const [selectedInstructor, setSelectedInstructor] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedSession, setSelectedSession] = useState("");
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin")
-    );
+    const admin = useLoaderData();
 
     useEffect(() => {
-        adminServices.setToken(user.token);
+        adminServices.setToken(admin?.token);
         adminServices
             .getAllCourses()
             .then((data) => {
@@ -50,7 +51,7 @@ const AddTeachesPage = () => {
                 console.log(data);
             })
             .catch((error) => console.error("Error fetching Sessions:", error));
-    }, []);
+    }, [admin?.token]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -83,11 +84,14 @@ const AddTeachesPage = () => {
             session_id: sessionId,
         };
 
-        adminServices.setToken(user?.token);
+        adminServices.setToken(admin?.token);
         adminServices
             .addTeaches(instructorId, credentials)
             .then(() => {
-                alert("Data Added Successfully!!!!!");
+                setSuccessMessage("Data Added Successfully!!!");
+                setTimeout(() => {
+                    setSuccessMessage("");
+                }, 3000);
                 event.target.reset();
                 setSelectedCourse("");
                 setSelectedInstructor("");
@@ -101,7 +105,7 @@ const AddTeachesPage = () => {
                     }, 5000);
                 } else {
                     setErrorMessage(
-                        "Error logging in : Please check the console for more details"
+                        "Error adding data : Please check the console for more details"
                     );
                     console.error(error);
                     setTimeout(() => {
@@ -114,6 +118,7 @@ const AddTeachesPage = () => {
     return (
         <SideBar>
             <ErrorMessage errorMessage={errorMessage} />
+            <SuccessMessage message={successMessage} />
             <Box display="flex">
                 <Box flexGrow={1}>
                     <div

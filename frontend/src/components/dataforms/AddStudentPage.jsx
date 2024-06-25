@@ -1,27 +1,30 @@
 import { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useLoaderData } from "react-router-dom";
 import ErrorMessage from '../ErrorMessage';
+import SuccessMessage from '../SuccessMessage';
 import SideBar from '../SideBar';
 import { Box } from '@mui/system';
 import adminServices from '../../services/admin';
 
 const AddStudentPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [programmes, setProgrammes] = useState([]); // State to store department names
   const [selectedProgramme, setSelectedProgramme] = useState(""); // State to store selected department name
   const [selectedDegree, setSelectedDegree] = useState(""); // State to store selected department name
-  const user = JSON.parse(localStorage.getItem("loggedAcademicTrackingAdmin"));
+  const { admin } = useLoaderData();
 
   useEffect(() => {
     // Fetch department names when component mounts
-    adminServices.setToken(user.token);
+    adminServices.setToken(admin?.token);
     adminServices.getAllProgrammes()
       .then(data => {
         setProgrammes(data);
         console.log(data);
       })
       .catch(error => console.error("Error fetching programmes:", error));
-  }, []);
+  }, [admin?.token]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -60,12 +63,14 @@ const AddStudentPage = () => {
       year_of_joining: year_of_joining
     };
 
-    console.log(credentials);
-    adminServices.setToken(user?.token);
+    adminServices.setToken(admin?.token);
     adminServices
       .addStudent(credentials)
       .then(() => {
-        alert("Student Added Successfully!!!");
+        setSuccessMessage("Student Added Successfully!!!");
+        setTimeout(() => {
+            setSuccessMessage("");
+        }, 3000);
         event.target.reset();
         setSelectedDegree("");
         setSelectedProgramme("");
@@ -88,12 +93,13 @@ const AddStudentPage = () => {
       });
   }
 
-  const uniqueDegrees = [...new Set(programmes.map(prog => prog.degree))];
-  const uniqueProgrammeNames = [...new Set(programmes.map(prog => prog.name))];
+  const uniqueDegrees = [...new Set(programmes?.map(prog => prog.degree))];
+  const uniqueProgrammeNames = [...new Set(programmes?.map(prog => prog.name))];
 
   return (
     <SideBar>
       <ErrorMessage errorMessage={errorMessage} />
+      <SuccessMessage message={successMessage} />
       <Box display="flex">
         <Box flexGrow={1}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}>

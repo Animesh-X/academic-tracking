@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Typography, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useLoaderData } from "react-router-dom";
 import ErrorMessage from '../ErrorMessage';
+import SuccessMessage from '../SuccessMessage';
 import SideBar from '../SideBar';
 import { Box } from '@mui/system';
 import adminServices from '../../services/admin';
@@ -13,7 +15,8 @@ const seasons = [
 const AddSession = () => {
   const [season, setSeason] = useState('');
   const [errorMessage, setErrorMessage] = useState("");
-  const user = JSON.parse(localStorage.getItem("loggedAcademicTrackingAdmin"));
+  const [successMessage, setSuccessMessage] = useState("");
+  const { admin } = useLoaderData();
 
   const handleSeasonChange = (event) => {
     setSeason(event.target.value);
@@ -37,11 +40,14 @@ const AddSession = () => {
       season: season_lower
     }
 
-    adminServices.setToken(user?.token);
+    adminServices.setToken(admin?.token);
     adminServices
       .addSession(credentials)
       .then(() => {
-        alert("Session Added Successfully");
+        setSuccessMessage("Session Added Successfully!!!");
+        setTimeout(() => {
+            setSuccessMessage("");
+        }, 3000);
         event.target.reset();
         setSeason('');
       })
@@ -68,6 +74,7 @@ const AddSession = () => {
   return (
     <SideBar>
       <ErrorMessage errorMessage={errorMessage} />
+      <SuccessMessage message={successMessage} />
       <Box display="flex">
         <Box flexGrow={1}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}>

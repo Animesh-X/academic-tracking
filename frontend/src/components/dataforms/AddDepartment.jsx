@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Typography, TextField, Button, Paper } from "@mui/material";
+import { useLoaderData } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 import SideBar from "../SideBar";
 import { Box } from "@mui/system";
 import adminServices from "../../services/admin";
 
 const AddDepartment = () => {
     const [errorMessage, setErrorMessage] = useState("");
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin")
-    );
+    const [successMessage, setSuccessMessage] = useState("");
+    const { admin } = useLoaderData();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,11 +28,14 @@ const AddDepartment = () => {
             name: department_name,
         };
 
-        adminServices.setToken(user?.token);
+        adminServices.setToken(admin?.token);
         adminServices
             .addDepartment(credentials)
             .then(() => {
-                alert("Department Added Successfully!!!");
+                setSuccessMessage("Department Added Successfully!!!");
+                setTimeout(() => {
+                    setSuccessMessage("");
+                }, 3000);
                 event.target.reset();
             })
             .catch((error) => {
@@ -55,6 +59,7 @@ const AddDepartment = () => {
     return (
         <SideBar>
             <ErrorMessage errorMessage={errorMessage} />
+            <SuccessMessage message={successMessage} />
             <Box display="flex">
                 <Box flexGrow={1}>
                     <div

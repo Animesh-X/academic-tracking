@@ -1,26 +1,29 @@
 import { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useLoaderData } from "react-router-dom";
 import ErrorMessage from '../ErrorMessage';
+import SuccessMessage from '../SuccessMessage';
 import SideBar from '../SideBar';
 import { Box } from '@mui/system';
 import adminServices from '../../services/admin';
 
 const AddInstructorPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [departments, setDepartments] = useState([]); // State to store department names
   const [selectedDepartment, setSelectedDepartment] = useState(""); // State to store selected department name
-  const user = JSON.parse(localStorage.getItem("loggedAcademicTrackingAdmin"));
+  const { admin } = useLoaderData();
 
   useEffect(() => {
     // Fetch department names when component mounts
-    adminServices.setToken(user.token)
+    adminServices.setToken(admin?.token)
     adminServices.getAllDepartments()
       .then(data => {
         setDepartments(data);
         console.log(data);
       })
       .catch(error => console.error("Error fetching departments:", error));
-  }, []);
+  }, [admin?.token]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,11 +51,14 @@ const AddInstructorPage = () => {
       department_id: departmentId
     };
 
-    adminServices.setToken(user?.token);
+    adminServices.setToken(admin?.token);
     adminServices
       .addInstructor(credentials)
       .then(() => {
-        alert("Instructor Added Successfully!!!");
+        setSuccessMessage("Instructor Added Successfully!!!");
+        setTimeout(() => {
+            setSuccessMessage("");
+        }, 3000);
         event.target.reset();
         setSelectedDepartment("");
       })
@@ -77,6 +83,7 @@ const AddInstructorPage = () => {
   return (
     <SideBar>
       <ErrorMessage errorMessage={errorMessage} />
+      <SuccessMessage message={successMessage} />
       <Box display="flex">
         <Box flexGrow={1}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}>

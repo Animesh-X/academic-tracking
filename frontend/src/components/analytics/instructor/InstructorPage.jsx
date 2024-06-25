@@ -79,7 +79,7 @@ export default function InstructorPage() {
       <ErrorMessage errorMessage={errorMessage} />
       <Box sx={{ml: 4, mt: 4}}>
         <Typography variant='h4' sx={{mb: 2}}>Professors</Typography>
-        <AutoCompleteInput data={searchData} label="Enter roll no to search" handleClick={handleSearchClick}/>
+        <AutoCompleteInput data={searchData} label="Search" handleClick={handleSearchClick}/>
       </Box>
       <InteractiveList data={instructorData} showSecondary={true} handleClick={handleClick} handleDeleteClick={handleDeleteClick} showDeleteOption = {true}/>
     </SideBar>

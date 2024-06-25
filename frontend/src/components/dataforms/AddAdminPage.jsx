@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import {
     Typography,
     TextField,
@@ -10,6 +11,7 @@ import {
     MenuItem,
 } from "@mui/material";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 import SideBar from "../SideBar";
 import { Box } from "@mui/system";
 import adminServices from "../../services/admin";
@@ -23,10 +25,9 @@ const securityQuestions = [
 
 const AddAdminPage = () => {
     const [securityQuestion, setSecurityQuestion] = useState("");
+    const { admin } = useLoaderData();
     const [errorMessage, setErrorMessage] = useState("");
-    const user = JSON.parse(
-        localStorage.getItem("loggedAcademicTrackingAdmin")
-    );
+    const [successMessage, setSuccessMessage] = useState("");
 
     const handleSecurityQuestionChange = (event) => {
         setSecurityQuestion(event.target.value);
@@ -39,13 +40,6 @@ const AddAdminPage = () => {
         const password = formData.get("password");
         const email = formData.get("email");
         const security_answer = formData.get("security_answer");
-        console.log(
-            username,
-            password,
-            email,
-            security_answer,
-            securityQuestion
-        );
         if (
             !username ||
             !password ||
@@ -69,11 +63,14 @@ const AddAdminPage = () => {
             security_answer,
         };
 
-        adminServices.setToken(user?.token);
+        adminServices.setToken(admin?.token);
         adminServices
             .createAdmin(credentials)
             .then(() => {
-                alert("Admin Created Successfully!!!");
+                setSuccessMessage("Admin Created Successfully!!!");
+                setTimeout(() => {
+                    setSuccessMessage("");
+                }, 3000);
                 event.target.reset();
                 setSecurityQuestion("");
             })
@@ -85,7 +82,7 @@ const AddAdminPage = () => {
                     }, 5000);
                 } else {
                     setErrorMessage(
-                        "Error logging in : Please check the console for more details"
+                        "Error Adding Admin! Please check console for more details"
                     );
                     console.error(error);
                     setTimeout(() => {
@@ -98,6 +95,7 @@ const AddAdminPage = () => {
     return (
         <SideBar>
             <ErrorMessage errorMessage={errorMessage} />
+            <SuccessMessage message={successMessage} />
             <Box display="flex">
                 <Box flexGrow={1}>
                     <div
