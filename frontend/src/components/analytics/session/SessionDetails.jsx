@@ -6,6 +6,7 @@ import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import CardAnalytics from "../../CardAnalytics";
 import services from "../../../services/admin";
+import Course from '../../../assets/course_image.png';
 
 export default function SessionDetails() {
   const { id } = useParams();
@@ -49,7 +50,7 @@ export default function SessionDetails() {
                         {/* <Item><CardAnalytics title={department.name}/></Item> */}
                         <CardAnalytics
                             title={`${detail.code} ${detail.title}`} subTitle={`${detail.name}`}
-                            // image_src={Department}
+                            image_src={Course}
                         />
                     </Grid>
                 ))}

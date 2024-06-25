@@ -3,13 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import SideBar from "../../SideBar";
 import ErrorMessage from "../../ErrorMessage";
 import InteractiveList from '../../InteractiveList';
+import AutoCompleteInput from "../../AutoCompleteInput";
 import services from "../../../services/admin";
 import '../../../styles/InstructorPage.css'
+import { Box, Typography } from '@mui/material';
 
 
 export default function InstructorPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [instructorData, setInstructorData] = useState([]);
+  const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
 
   // TODO Handle this
@@ -41,6 +44,11 @@ export default function InstructorPage() {
       });
   }
 
+  const handleSearchClick = (name) => {
+    const { id } = instructorData.filter((instructor) => (instructor.primaryText === name))[0];
+    navigate(`/analytics/instructor/${id}`);
+  }
+
   useEffect(() => {
     services.setToken(user?.token);
     services
@@ -53,6 +61,8 @@ export default function InstructorPage() {
           id: instructor.id,
         }));
         setInstructorData(instructorDataFormatted);
+        const searchData = data.map((instructor) => ({title: instructor.name}));
+        setSearchData(searchData)
       })
       .catch((error) => {
         setErrorMessage("Error fetching instructors");
@@ -67,7 +77,11 @@ export default function InstructorPage() {
   return (
     <SideBar>
       <ErrorMessage errorMessage={errorMessage} />
-      <InteractiveList data={instructorData} showSecondary={true} header="Professors" handleClick={handleClick} handleDeleteClick={handleDeleteClick} showDeleteOption = {true}/>
+      <Box sx={{ml: 4, mt: 4}}>
+        <Typography variant='h4' sx={{mb: 2}}>Professors</Typography>
+        <AutoCompleteInput data={searchData} label="Enter roll no to search" handleClick={handleSearchClick}/>
+      </Box>
+      <InteractiveList data={instructorData} showSecondary={true} handleClick={handleClick} handleDeleteClick={handleDeleteClick} showDeleteOption = {true}/>
     </SideBar>
   );
 }
