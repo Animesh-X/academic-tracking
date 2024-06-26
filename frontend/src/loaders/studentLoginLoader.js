@@ -9,7 +9,7 @@ const getStudentFromLocalStorage = () => {
 };
 
 const studentLoginLoader = async () => {
-    const student = getAdminFromLocalStorage();
+    const student = getStudentFromLocalStorage();
     if (student) {
         return redirect("/student/dashboard");
     }
