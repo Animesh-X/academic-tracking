@@ -14,6 +14,7 @@ const departmentsRouter = require("./controllers/departments");
 const coursesRouter = require("./controllers/courses");
 const instructorsRouter = require("./controllers/instructors");
 const studentsRouter = require("./controllers/students");
+const studentRouter = require("./controllers/student");
 const sessionsRouter = require("./controllers/sessions");
 const signupRouter = require("./controllers/signup");
 
@@ -36,6 +37,7 @@ app.use("/api/courses", middleware.userAdminExtractor, coursesRouter);
 app.use("/api/sessions", middleware.userAdminExtractor, sessionsRouter);
 app.use("/api/instructors", middleware.userAdminExtractor, instructorsRouter);
 app.use("/api/students", middleware.userAdminExtractor, studentsRouter);
+app.use("/api/student", middleware.studentExtractor, studentRouter)
 app.use("/api/signup", signupRouter);
 
 app.use(middleware.unknownEndpoint);
