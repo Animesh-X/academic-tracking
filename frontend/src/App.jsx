@@ -1,4 +1,3 @@
-import { Container } from "@mui/system";
 import { useLoaderData } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";

@@ -53,7 +53,7 @@ export default function SignInSide() {
           JSON.stringify(user)
         );
         setErrorMessage("");
-        navigate("/", { replace: true });
+        navigate("/user/dashboard", { replace: true });
         // navigate on success
         // navigate("/admin/dashboard");
       })

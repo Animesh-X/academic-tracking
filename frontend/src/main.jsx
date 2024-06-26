@@ -54,12 +54,19 @@ import AdminDashBoard from './components/AdminDashBoard.jsx';
 import Analytics from './components/Analytics.jsx';
 
 import StudentDashBoard from './components/student/StudentDashBoard.jsx';
+import UserDashBoard from './components/UserDashBoard.jsx';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
+    loader: userLoader,
+  },
+  {
+    path: "/user/dashboard",
+    element: <UserDashBoard />,
     errorElement: <ErrorPage />,
     loader: userLoader,
   },
