@@ -5,8 +5,7 @@ const dbConn = require("../utils/db");
 const validator = require("email-validator");
 
 studentRouter.get("/", (req, res) => {
-    console.log(req.student);
-    return res.json("HIIIIII from server");
+    return res.json(req.student);
 });
 
 studentRouter.get("/semesters", async (request, response) => {
@@ -129,5 +128,47 @@ studentRouter.get("/spi/:semester_number", async (request, response) => {
 
     return response.json(spi);
 });
+
+studentRouter.get("/courses", async (request, response) => {
+    const { student } = request;
+    let roll = student.roll;
+
+    if (!roll instanceof Number || roll % 1 != 0) {
+        return response.status(400).json({
+            error: "roll must be an integer",
+        });
+    }
+
+    const studentWithRoll = await dbConn.query(
+        "SELECT * FROM student WHERE roll=?",
+        [roll]
+    );
+
+    if (studentWithRoll.length === 0) {
+        return response.status(404).json({
+            error: "A student with that roll number does not exist",
+        });
+    }
+
+    const coursesQuery = `SELECT semester_number, grade,
+        course_id, course.title, course.code, 
+        course.department_id course_dept_id,
+        session_id, session.start_year, session.season,
+        taught_by instructor_id, instructor.name instructor_name,
+        instructor.designation instructor_designation,
+        instructor.department_id instructor_dept_id
+        FROM takes 
+        JOIN student ON student.roll = student_roll 
+        JOIN course ON course.id = course_id
+        JOIN session ON session.id = session_id
+        JOIN instructor ON instructor.id = taught_by
+        WHERE roll=?
+        ORDER BY semester_number desc;`;
+
+    const courses = await dbConn.query(coursesQuery, [roll]);
+
+    return response.json(courses);
+});
+
 
 module.exports = studentRouter;

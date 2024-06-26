@@ -125,14 +125,15 @@ signupRouter.post("/student", async (request, response) => {
     }
     
     const studentName = studentWithEmail[0].name;
+    const studentRoll = studentWithEmail[0].roll;
 
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
     const query =
-        "INSERT INTO student_user (email, password_hash, username) VALUES (?, ?, ?);";
+        "INSERT INTO student_user (email, password_hash, username, student_roll) VALUES (?, ?, ?, ?);";
 
-    await dbConn.query(query, [email, passwordHash, studentName]);
+    await dbConn.query(query, [email, passwordHash, studentName, studentRoll]);
 
     return response.status(201).end();
 })
