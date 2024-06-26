@@ -67,6 +67,7 @@ function ResponsiveAppBar() {
     const handleLogout = () => {
         window.localStorage.removeItem("loggedAcademicTrackingAdmin");
         window.localStorage.removeItem("loggedAcademicTrackingUser");
+        window.localStorage.removeItem("loggedAcademicTrackingstudent");
         navigate("/", { replace: true });
     };
 
@@ -364,7 +365,7 @@ function ResponsiveAppBar() {
                                 textDecoration: "none",
                             }}
                         >
-                            LOGO
+                            ACADEMIC PERFORMANCE TRACKER
                         </Typography>
                         <Box
                             sx={{

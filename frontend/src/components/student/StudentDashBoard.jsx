@@ -1,30 +1,28 @@
-import { useEffect, useState } from "react";
-import { useParams, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
-import services from "../../../services/admin";
-import SideBar from "../../SideBar";
-import ErrorMessage from "../../ErrorMessage";
-import BarChart from "../../BarChart";
-import CollapsibleTable from "../../CollapsibleTable";
+import { useEffect, useState } from "react";
+import studentService from "../../services/student";
+import SideBar from "../SideBar";
+import ErrorMessage from "../ErrorMessage";
+import BarChart from "../BarChart";
+import CollapsibleTable from "../CollapsibleTable";
 
-export default function StudentDetail() {
-    const { roll } = useParams();
-    const [student, setStudent] = useState({});
+export default function StudentDashBoard () {
+    const { student } = useLoaderData();
+    const [studentDetail, setStudentDetail] = useState({});
     const [semesters, setSemesters] = useState([]);
     const [courses, setCourses] = useState([]);
     const [cpi, setCPI] = useState({});
     const [spi, setSPI] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const { user } = useLoaderData();
-
     useEffect(() => {
-        services.setToken(user?.token);
-        services
-            .getStudent(roll)
+        studentService.setToken(student?.token);
+        studentService
+            .getStudentDetail()
             .then((student) => {
                 console.log(student);
-                setStudent(student);
+                setStudentDetail(student);
             })
             .catch((error) => {
                 setErrorMessage("Error fetching student");
@@ -33,13 +31,13 @@ export default function StudentDetail() {
                     setErrorMessage("");
                 }, 5000);
             });
-        services
-            .getSemester(roll)
+            studentService
+            .getSemesters()
             .then((semesters) => {
                 console.log(semesters);
                 const spiPromises = semesters.map((semester) =>
-                    services
-                        .getSPI(roll, semester.semester_number)
+                    studentService
+                        .getSPI(semester.semester_number)
                         .then((semester_spi) => ({
                             semester_number: semester.semester_number,
                             spi: semester_spi,
@@ -67,8 +65,8 @@ export default function StudentDetail() {
                     setErrorMessage("");
                 }, 5000);
             });
-        services
-            .getCPI(roll)
+        studentService
+            .getCPI()
             .then((cpi) => {
                 console.log(cpi);
                 setCPI(cpi);
@@ -80,8 +78,8 @@ export default function StudentDetail() {
                     setErrorMessage("");
                 }, 5000);
             });
-        services
-            .getCourseOfStudent(roll)
+        studentService
+            .getCourses()
             .then((data) => {
                 console.log(data);
                 setCourses(data);
@@ -93,10 +91,7 @@ export default function StudentDetail() {
                     setErrorMessage("");
                 }, 5000);
             });
-            
-
-
-    }, [roll, user?.token]);
+    },[student?.token]);
 
     const data = {
         labels: spi.map((semesterSpi) => semesterSpi.semester_number),
@@ -110,56 +105,43 @@ export default function StudentDetail() {
         ],
     };
 
-  function createDropdownData(courses) {
-    return courses.map(course => ({
-    code: course.code,
-    title: course.title,
-    season: course.season,
-    start_year: course.start_year,
-    instructor_name: course.instructor_name,
-    grade: course.grade
-    }));
-}
-  const rows = spi?.map((semesterSpi) => {
-    const filteredCourses = courses.filter(course => course.semester_number === semesterSpi.semester_number);
-    const dropdownData = createDropdownData(filteredCourses);
-    return {
-      semester_number: semesterSpi.semester_number,
-      spi: semesterSpi.spi,
-      dropdown: dropdownData,
-    };
-  });
-
-  console.log(rows);
+    function createDropdownData(courses) {
+        return courses.map(course => ({
+        code: course.code,
+        title: course.title,
+        season: course.season,
+        start_year: course.start_year,
+        instructor_name: course.instructor_name,
+        grade: course.grade
+        }));
+    }
+    const rows = spi?.map((semesterSpi) => {
+        const filteredCourses = courses.filter(course => course.semester_number === semesterSpi.semester_number);
+        const dropdownData = createDropdownData(filteredCourses);
+        return {
+        semester_number: semesterSpi.semester_number,
+        spi: semesterSpi.spi,
+        dropdown: dropdownData,
+        };
+    });
 
     return (
-        <SideBar>
-            <ErrorMessage errorMessage={errorMessage} />
-            <Box sx={{ mt: 4, ml: 4 }}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
-                    {student?.name} - {student?.roll}
-                </Typography>
-                <Typography variant="subtitle2">
-                    Year of joining: {student?.year_of_joining}
-                </Typography>
-                <Typography variant="subtitle2">Email: {student?.email}</Typography>
-                <Typography variant="h6" sx={{mt: 4, mb: 2}}>CPI: {cpi.cpi}</Typography>
-            </Box>
-            <Box 
-            sx={{ 
-                // display: 'flex', 
-                // justifyContent: 'center', 
-                // alignItems: 'center', 
-                ml: 4
-              }}
-              >
-            </Box>
-            <Box sx={{ ml: 4 }}>
-            <CollapsibleTable headers = {["Semester", "SPI"]} rows = {rows} secHeaders = {["Course", "Session", "Instructor", "Grade"]} title={`Courses taken`}/>
-            </Box>
-            <Box>
-                <BarChart data={data} />
-            </Box>
-        </SideBar>
-    );
+        <Box>
+            <SideBar>
+                <ErrorMessage errorMessage={errorMessage} />
+                <Box>
+                    <Typography variant="h4" sx={{ mb: 1 }}>
+                        {studentDetail?.name} - {studentDetail?.roll}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                        Year of joining: {studentDetail?.year_of_joining}
+                    </Typography>
+                    <Typography variant="subtitle2">Email: {student?.email}</Typography>
+                    <Typography variant="h6" sx={{mt: 4, mb: 2}}>CPI: {cpi.cpi}</Typography>
+                    <CollapsibleTable headers = {["Semester", "SPI"]} rows = {rows} secHeaders = {["Course", "Session", "Instructor", "Grade"]} title={`Courses taken`}/>
+                </Box>
+                    <BarChart data={data} />
+            </SideBar>
+        </Box>
+    )
 }

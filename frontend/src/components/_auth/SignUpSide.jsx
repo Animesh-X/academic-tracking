@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import signupServices from '../../services/signup';
 import ErrorMessage from '../ErrorMessage';
+import SuccessMessage from '../SuccessMessage';
 import CustomThemeProvider from '../CustomThemeProvider';
 
 function Copyright(props) {
@@ -29,6 +30,7 @@ function Copyright(props) {
 export default function SignUpSide() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,6 +52,7 @@ export default function SignUpSide() {
     signupServices
       .signupUser(credentials)
       .then((user) => {
+        setMessage(`Signup successful! Welcome, ${user.username}`)
         alert(`Signup successful! Welcome, ${user.username}`);
         navigate("/signin", { replace: true });
       })
@@ -79,6 +82,7 @@ export default function SignUpSide() {
   return (
     <CustomThemeProvider>
       <ErrorMessage errorMessage={errorMessage} />
+      <SuccessMessage message={message} />
       <Grid container component="main" sx={{ height: '100vh' }}>
         <Grid
           item

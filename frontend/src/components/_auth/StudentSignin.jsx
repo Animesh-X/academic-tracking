@@ -55,9 +55,7 @@ export default function StudentSignin() {
           JSON.stringify(student)
         );
         setErrorMessage("");
-        console.log("Login Successful");
-        alert("Login Successfully!!");
-        // navigate("/admin/dashboard", { replace: true });
+        navigate("/student/dashboard", { replace: true });
       })
       .catch((error) => {
         if (error.response.data.error) {

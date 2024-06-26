@@ -1,9 +1,9 @@
 import { redirect } from "react-router-dom";
 
 const getAdminFromLocalStorage = () => {
-    const loggedContributorJSON = window.localStorage.getItem("loggedAcademicTrackingAdmin");
-    if (loggedContributorJSON) {
-      return JSON.parse(loggedContributorJSON);
+    const loggedAdminJSON = window.localStorage.getItem("loggedAcademicTrackingAdmin");
+    if (loggedAdminJSON) {
+      return JSON.parse(loggedAdminJSON);
     }
     return null;
 };

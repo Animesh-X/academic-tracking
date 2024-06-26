@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import userLoader from './loaders/userLoader';
-import userLoginLoader from './loaders/userLoginLoader';
 import adminLoader from './loaders/adminLoader';
 import adminLoginLoader from './loaders/adminLoginLoader';
+import userLoader from './loaders/userLoader';
+import userLoginLoader from './loaders/userLoginLoader';
+import studentLoader from './loaders/studentLoader.js';
+import studentLoginLoader from './loaders/studentLoginLoader.js';
 import adminUserLoader from './loaders/adminUserLoader.js';
 import ErrorPage from './components/ErrorPage.jsx';
 
@@ -44,11 +46,14 @@ import ProgrammePage from './components/analytics/programme/ProgrammePage.jsx';
 import SessionPage from './components/analytics/session/SessionPage.jsx';
 import SessionDetails from './components/analytics/session/SessionDetails.jsx';
 
-import AdminDashBoard from './components/AdminDashBoard.jsx';
-import Analytics from './components/Analytics.jsx';
 import StudentPage from './components/analytics/students/StudentPage.jsx';
 import StudentProgramme from './components/analytics/students/StudentProgramme.jsx';
 import StudentDetail from './components/analytics/students/StudentDetail.jsx';
+
+import AdminDashBoard from './components/AdminDashBoard.jsx';
+import Analytics from './components/Analytics.jsx';
+
+import StudentDashBoard from './components/student/StudentDashBoard.jsx';
 
 
 const router = createBrowserRouter([
@@ -79,12 +84,14 @@ const router = createBrowserRouter([
   {
     path: "/student/signin",
     element: <StudentSignin />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    loader: studentLoginLoader,
   },
   {
     path: "/student/signup",
     element: <StudentSignup />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    loader: studentLoginLoader,
   },
   {
     path: "/admin/dashboard",
@@ -247,6 +254,12 @@ const router = createBrowserRouter([
     element: <SessionDetails />,
     errorElement: <ErrorPage />,
     loader: adminUserLoader
+  },
+  {
+    path: "student/dashboard",
+    element: <StudentDashBoard />,
+    errorElement: <ErrorPage />,
+    loader: studentLoader
   }
 ])
 
