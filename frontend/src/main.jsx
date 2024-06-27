@@ -62,7 +62,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    loader: userLoader,
   },
   {
     path: "/user/dashboard",
