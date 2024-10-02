@@ -78,7 +78,8 @@ CREATE TABLE user (
 CREATE TABLE student_user (
     email VARCHAR(255) PRIMARY KEY,
     username VARCHAR(25) NOT NULL,
-    password_hash CHAR(60) NOT NULL
+    password_hash CHAR(60) NOT NULL,
+    student_roll INT NOT NULL
 );
 
 CREATE TABLE administrator (

@@ -24,7 +24,7 @@ const AddTeachesPage = () => {
     const [selectedInstructor, setSelectedInstructor] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedSession, setSelectedSession] = useState("");
-    const admin = useLoaderData();
+    const { admin } = useLoaderData();
 
     useEffect(() => {
         adminServices.setToken(admin?.token);
